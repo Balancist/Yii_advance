@@ -134,8 +134,8 @@ return parent::view($id);
 *     description="create *query* *formData*  post",
 *     produces={"application/json"},
 <?php
-foreach ($class::getTableSchema()->columns as $field => $attr) {
-    if (!in_array($field, \Yii::$app->params['gii_no_change_field'])) {
+foreach ($class::getTableSchema()->columns as $field => $attr):
+    if (!in_array($field, \Yii::$app->params['gii_no_change_field'])):
         ?>
         *     @SWG\Parameter(
         *        in = "formData",
@@ -144,9 +144,9 @@ foreach ($class::getTableSchema()->columns as $field => $attr) {
         *        required = <?= ($attr->allowNull ? 'false' : 'true') ?>,
         *        type = "<?= \Yii::$app->params['gii_field_type'][$attr->type] ?>"
         *     ),
-        <?
-    }
-}
+        <?php
+    endif;
+endforeach;
 ?>
 *
 *     @SWG\Response(
@@ -182,8 +182,8 @@ return parent::create();
 *        type = "integer"
 *     ),
 <?php
-foreach ($class::getTableSchema()->columns as $field => $attr) {
-    if (!in_array($field, \Yii::$app->params['gii_no_change_field'])) {
+foreach ($class::getTableSchema()->columns as $field => $attr):
+    if (!in_array($field, \Yii::$app->params['gii_no_change_field'])):
         ?>
         *     @SWG\Parameter(
         *        in = "formData",
@@ -192,9 +192,9 @@ foreach ($class::getTableSchema()->columns as $field => $attr) {
         *        required = <?= ($attr->allowNull ? 'false' : 'true') ?>,
         *        type = "<?= \Yii::$app->params['gii_field_type'][$attr->type] ?>"
         *     ),
-        <?
-    }
-}
+        <?php
+    endif;
+endforeach;
 ?>
 *
 *     @SWG\Response(
@@ -226,8 +226,8 @@ return parent::update($id);
 *    produces = {"application/json"},
 *    consumes = {"application/json"},
 <?php
-foreach ($class::getTableSchema()->columns as $field => $attr) {
-    if ($field != 'id') {
+foreach ($class::getTableSchema()->columns as $field => $attr):
+    if ($field != 'id'):
         ?>
         *     @SWG\Parameter(
         *        in = "query",
@@ -236,9 +236,9 @@ foreach ($class::getTableSchema()->columns as $field => $attr) {
         *        required = false,
         *        type = "<?= \Yii::$app->params['gii_field_type'][$attr->type] ?>"
         *     ),
-        <?
-    }
-}
+        <?php
+    endif;
+endforeach;
 ?>
 *    @SWG\Response(response = 200, description = "success")
 *)
