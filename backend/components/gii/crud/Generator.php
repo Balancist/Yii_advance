@@ -167,10 +167,10 @@ class Generator extends \yii\gii\Generator
             new CodeFile($controllerFile, $this->render('controller.php')),
         ];
 
-        if (!empty($this->searchModelClass)) {
-            $searchModel = Yii::getAlias('@' . str_replace('\\', '/', ltrim($this->searchModelClass, '\\') . '.php'));
-            $files[] = new CodeFile($searchModel, $this->render('search.php'));
-        }
+        // if (!empty($this->searchModelClass)) {
+        //     $searchModel = Yii::getAlias('@' . str_replace('\\', '/', ltrim($this->searchModelClass, '\\') . '.php'));
+        //     $files[] = new CodeFile($searchModel, $this->render('search.php'));
+        // }
 
         $viewPath = $this->getViewPath();
         $templatePath = $this->getTemplatePath() . '/views';

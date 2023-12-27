@@ -29,7 +29,7 @@ $modelClassLower = \yii\helpers\Inflector::pluralize(\yii\helpers\Inflector::cam
 
 //Get Table comment
 //$dbName = 'dbo';//Yii::$app->db->createCommand("SELECT DATABASE()")->queryScalar();
-$tbName = $class::getOriginalTableName();
+$tbName = $class::tableName();
 if (Yii::$app->db->getDriverName() == 'sqlsrv') {
     $sql = "select [value] AS TABLE_COMMENT
                 from sys.extended_properties
@@ -135,17 +135,15 @@ return parent::view($id);
 *     produces={"application/json"},
 <?php
 foreach ($class::getTableSchema()->columns as $field => $attr):
-    if (!in_array($field, \Yii::$app->params['gii_no_change_field'])):
-        ?>
-        *     @SWG\Parameter(
-        *        in = "formData",
-        *        name = "<?= $field ?>",
-        *        description = "<?= $attr->comment ?> ",
-        *        required = <?= ($attr->allowNull ? 'false' : 'true') ?>,
-        *        type = "<?= \Yii::$app->params['gii_field_type'][$attr->type] ?>"
-        *     ),
-        <?php
-    endif;
+    ?>
+    *     @SWG\Parameter(
+    *        in = "formData",
+    *        name = "<?= $field ?>",
+    *        description = "<?= $attr->comment ?> ",
+    *        required = <?= ($attr->allowNull ? 'false' : 'true') ?>,
+    *        type = "<?= print_r($attr->type) ?>"
+    *     ),
+    <?php
 endforeach;
 ?>
 *
@@ -183,17 +181,15 @@ return parent::create();
 *     ),
 <?php
 foreach ($class::getTableSchema()->columns as $field => $attr):
-    if (!in_array($field, \Yii::$app->params['gii_no_change_field'])):
-        ?>
-        *     @SWG\Parameter(
-        *        in = "formData",
-        *        name = "<?= $field ?>",
-        *        description = "<?= $attr->comment ?>",
-        *        required = <?= ($attr->allowNull ? 'false' : 'true') ?>,
-        *        type = "<?= \Yii::$app->params['gii_field_type'][$attr->type] ?>"
-        *     ),
-        <?php
-    endif;
+    ?>
+    *     @SWG\Parameter(
+    *        in = "formData",
+    *        name = "<?= $field ?>",
+    *        description = "<?= $attr->comment ?>",
+    *        required = <?= ($attr->allowNull ? 'false' : 'true') ?>,
+    *        type = "<?= print_r($attr->type) ?>"
+    *     ),
+    <?php
 endforeach;
 ?>
 *
@@ -234,7 +230,7 @@ foreach ($class::getTableSchema()->columns as $field => $attr):
         *        name = "<?= $field ?>",
         *        description = "<?= $attr->comment ?> ",
         *        required = false,
-        *        type = "<?= \Yii::$app->params['gii_field_type'][$attr->type] ?>"
+        *        type = "<?= print_r($attr->type) ?>"
         *     ),
         <?php
     endif;
