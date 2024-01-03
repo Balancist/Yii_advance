@@ -97,9 +97,14 @@ public $modelClass = '<?= $class ?>';
 * )
 *
 */
-public function actionIndex()
-{
-return parent::index();
+public function actionIndex() {
+    $searchModel = new <?= $generator->searchModelClass ?>;
+    $dataProvider = $searchModel->search($this->request->queryParams);
+
+    return $this->render('index', [
+        'searchModel' => $searchModel,
+        'dataProvider' => $dataProvider,
+    ]);
 }
 
 /**
@@ -271,5 +276,10 @@ return $dataProvider ;
 public function actionDelete($id)
 {
 return parent::delete($id);
+}
+
+protected function findModel($id) {
+$class = new <?= $modelClass ?>();
+return parent::findModel($class, $id);
 }
 }

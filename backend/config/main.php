@@ -32,10 +32,15 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => $main['modules'],
+    'modules' => array_merge(
+        $main['modules'],
+        ['v1' => [
+            'class' => 'backend\modules\v1\Module'
+        ]]
+    ),
     'components' => [
         'request' => [
-            'csrfParam' => '_csrf-backend',
+            'enableCsrfValidation' => false,
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -58,12 +63,16 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        // 'urlManager' => [
-        //     'enablePrettyUrl' => true,
-        //     'showScriptName' => false,
-        //     'rules' => [
-        //     ],
-        // ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+                ['class' => \yii\rest\UrlRule::class, 'controller' => ['thesis' => 'v1/thesis/thesis']]
+            ],
+        ],
+        'response' => [
+            'format' => yii\web\Response::FORMAT_JSON,
+        ]
     ],
     'params' => $params,
 ];
