@@ -21,7 +21,6 @@ class Thesis extends BaseThesis
 
 	public function beforeInsert($insert) {
 		if (parent::beforeInsert($insert)) {
-			exit('ds');
             $model->author = Yii::$app->user->id;
             $model->date = date('Y/m/d | H:i:s');
             return true;

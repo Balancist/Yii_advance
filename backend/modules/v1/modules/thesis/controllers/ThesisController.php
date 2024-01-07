@@ -82,7 +82,7 @@ class ThesisController extends Controller
     *     tags={"thesis"},
     *     summary="Create",
     *     description="create *query* *formData*  post",
-    *     produces={"application/json", "text/html"},
+    *     produces={"application/json"},
             *     @SWG\Parameter(
         *        in = "formData",
         *        name = "title",
@@ -102,6 +102,19 @@ class ThesisController extends Controller
         *        type = "string",
         *        format = "textarea"
         *     ),
+            *     @SWG\Parameter(
+        *        in = "formData",
+        *        name = "date",
+        *        required = true,
+        *        type = "string",
+        *        format = "date-time"
+        *     ),
+            *     @SWG\Parameter(
+        *        in = "formData",
+        *        name = "author",
+        *        required = true,
+        *        type = "integer"
+        *     ),
         *
     *     @SWG\Response(
     *         response = 200,
@@ -117,12 +130,11 @@ class ThesisController extends Controller
     */
     public function actionCreate()
     {
+        exit('jf');
         $model = new Thesis();
         if ($this->request->isPost) {
-            if (yii\db\ActiveRecord::BEFORE_VALIDATE_EVENT) {
             $model->author = Yii::$app->user->id;
             $model->date = date('Y/m/d | H:i:s');
-            }
             if ($model->load($this->request->post()) && $model->save()) {
                 return "OK";
             }

@@ -1,10 +1,10 @@
 <?php
 
-namespace app\components;
+namespace common\components;
 
 use Yii;
 use yii\rbac\Rule;
-use app\models\User;
+use common\models\User;
 
 class UserGroupRule extends Rule
 {

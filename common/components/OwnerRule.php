@@ -1,10 +1,8 @@
 <?php
 
-namespace app\components;
+namespace common\components;
 
-use Yii;
 use yii\rbac\Rule;
-use app\models\User;
 
 class OwnerRule extends Rule
 {
@@ -12,6 +10,6 @@ class OwnerRule extends Rule
 
     public function execute($user, $item, $params)
     {
-        return isset($params['object']) ? $params['object']->publisher == $user : false;
+        return isset($params['object']) ? $params['object']->author == $user : false;
     }
 }
