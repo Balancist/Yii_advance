@@ -2,7 +2,7 @@
 
 namespace backend\modules\v1\modules\thesis\controllers;
 
-use common\components\Controller;
+use common\components\rest\Controller;
 use backend\modules\v1\modules\thesis\models\Thesis;
 use Yii;
 
@@ -102,19 +102,6 @@ class ThesisController extends Controller
         *        type = "string",
         *        format = "textarea"
         *     ),
-            *     @SWG\Parameter(
-        *        in = "formData",
-        *        name = "date",
-        *        required = true,
-        *        type = "string",
-        *        format = "date-time"
-        *     ),
-            *     @SWG\Parameter(
-        *        in = "formData",
-        *        name = "author",
-        *        required = true,
-        *        type = "integer"
-        *     ),
         *
     *     @SWG\Response(
     *         response = 200,
@@ -130,15 +117,7 @@ class ThesisController extends Controller
     */
     public function actionCreate()
     {
-        exit('jf');
-        $model = new Thesis();
-        if ($this->request->isPost) {
-            $model->author = Yii::$app->user->id;
-            $model->date = date('Y/m/d | H:i:s');
-            if ($model->load($this->request->post()) && $model->save()) {
-                return "OK";
-            }
-        }
+        return parent::create();
     }
 
 

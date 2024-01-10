@@ -1,8 +1,8 @@
 <?php
 
 use common\models\User;
-use common\components\UserGroupRule;
-use common\components\OwnerRule;
+use common\components\rbac\UserGroupRule;
+use common\components\rbac\OwnerRule;
 use yii\db\Migration;
 
 class m240107_084239_init_rbac extends Migration
@@ -30,29 +30,47 @@ class m240107_084239_init_rbac extends Migration
         $insertThesis->description = 'اضافه کردن پایان نامه';
         $auth->add($insertThesis);
 
-        $updateThesis = $auth->createPermission('updateThesis');
-        $updateThesis->description = 'ویراین پایان نامه';
-        $updateThesis->ruleName = $ownerRule->name;
-        $auth->add($updateThesis);
+        $updateOwnThesis = $auth->createPermission('updateOwnThesis');
+        $updateOwnThesis->description = 'ویراین پایان نامه';
+        $updateOwnThesis->ruleName = $ownerRule->name;
+        $auth->add($updateOwnThesis);
 
-        $deleteThesis = $auth->createPermission('deleteThesis');
-        $deleteThesis->description = 'حذف پایان نامه';
-        $auth->add($deleteThesis);
+        $deleteOwnThesis = $auth->createPermission('deleteOwnThesis');
+        $deleteOwnThesis->description = 'حذف پایان نامه';
+        $deleteOwnThesis->ruleName = $ownerRule->name;
+        $auth->add($deleteOwnThesis);
 
+
+        $allowedStudent = $auth->createRole('allowedStudent');
+        $allowedStudent->ruleName = $userGroupRule->name;
+        $auth->add($allowedStudent);
+        $auth->addChild($allowedStudent, $viewOwnThesis);
+        $auth->addChild($allowedStudent, $insertThesis);
+        $auth->addChild($allowedStudent, $updateOwnThesis);
+        $auth->addChild($allowedStudent, $deleteOwnThesis);
 
         $admin = $auth->createRole('admin');
         $admin->ruleName = $userGroupRule->name;
         $auth->add($admin);
         $auth->addChild($admin, $viewThesis);
-        $auth->addChild($admin, $deleteThesis);
+        $auth->addChild($admin, $insertThesis);
+        $auth->addChild($admin, $updateOwnThesis);
+        $auth->addChild($admin, $deleteOwnThesis);
 
 
         $mohammad = new User;
         $mohammad->username = 'mohammad';
-        $mohammad->password = 'mohammad';
-        $mohammad->phone = '09383710200';
+        $mohammad->password = '12345678';
+        $mohammad->email = 'a@b.c';
         $mohammad->save();
         $auth->assign($admin, $mohammad->id);
+
+        $hasan = new User;
+        $hasan->username = 'hasan';
+        $hasan->password = '12345678';
+        $hasan->email = 'd@e.f';
+        $hasan->save();
+        $auth->assign($allowedStudent, $hasan->id);
     }
 
     public function down()

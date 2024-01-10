@@ -4,7 +4,6 @@ namespace backend\modules\v1\modules\thesis\models\base;
 
 use Yii;
 use common\models\User;
-use backend\modules\v1\modules\thesis\components\CompletionOfYearProcessCheckStudyAndTermsValidator;
 
 /**
 * This is the model class for table "thesis".
@@ -35,7 +34,6 @@ class BaseThesis extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'slug', 'text', 'date', 'author'], 'required' , 'except' => 'getByParams'],
-            [['text'], CompletionOfYearProcessCheckStudyAndTermsValidator::class],
             [['date'], 'safe'],
             [['text'], 'string'],
             [['author'], 'integer'],
