@@ -33,6 +33,8 @@ class UpdateAction extends \yii\rest\UpdateAction
 
         $model->scenario = $this->scenario;
         $model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        $model->modified_user_id = Yii::$app->user->id;
+        $model->modified_time = date('Y-m-d | H:i:s');
         if ($model->save() === false && !$model->hasErrors() && !$model->hasNotices()) {
             throw new ServerErrorHttpException('Failed to update the object for unknown reason.');
         }

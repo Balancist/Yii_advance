@@ -26,6 +26,18 @@ class m240107_084239_init_rbac extends Migration
         $auth->add($viewOwnThesis);
         $auth->addChild($viewOwnThesis, $viewThesis);
 
+        $viewOwnSchoolThesis = $auth->createPermission('viewOwnSchoolThesis');
+        $viewOwnSchoolThesis->description = 'مشاهده پایان نامه مدرسه خود';
+        $viewOwnSchoolThesis->ruleName = $ownerRule->name;
+        $auth->add($viewOwnSchoolThesis);
+        $auth->addChild($viewOwnSchoolThesis, $viewThesis);
+
+        $viewOwnCityThesis = $auth->createPermission('viewOwnCityThesis');
+        $viewOwnCityThesis->description = 'مشاهده پایان نامه شهر خود';
+        $viewOwnCityThesis->ruleName = $ownerRule->name;
+        $auth->add($viewOwnCityThesis);
+        $auth->addChild($viewOwnCityThesis, $viewThesis);
+
         $insertThesis = $auth->createPermission('insertThesis');
         $insertThesis->description = 'اضافه کردن پایان نامه';
         $auth->add($insertThesis);
@@ -44,18 +56,30 @@ class m240107_084239_init_rbac extends Migration
         $allowedStudent = $auth->createRole('allowedStudent');
         $allowedStudent->ruleName = $userGroupRule->name;
         $auth->add($allowedStudent);
-        $auth->addChild($allowedStudent, $viewOwnThesis);
         $auth->addChild($allowedStudent, $insertThesis);
+        $auth->addChild($allowedStudent, $viewOwnThesis);
         $auth->addChild($allowedStudent, $updateOwnThesis);
         $auth->addChild($allowedStudent, $deleteOwnThesis);
 
-        $admin = $auth->createRole('admin');
-        $admin->ruleName = $userGroupRule->name;
-        $auth->add($admin);
-        $auth->addChild($admin, $viewThesis);
-        $auth->addChild($admin, $insertThesis);
-        $auth->addChild($admin, $updateOwnThesis);
-        $auth->addChild($admin, $deleteOwnThesis);
+        $city = $auth->createRole('city');
+        $city->ruleName = $userGroupRule->name;
+        $auth->add($city);
+        $auth->addChild($city, $viewOwnCityThesis);
+
+        $school = $auth->createRole('school');
+        $school->ruleName = $userGroupRule->name;
+        $auth->add($school);
+        $auth->addChild($school, $viewOwnSchoolThesis);
+
+        $management = $auth->createRole('management');
+        $management->ruleName = $userGroupRule->name;
+        $auth->add($management);
+        $auth->addChild($management, $viewThesis);
+
+        $office = $auth->createRole('office');
+        $office->ruleName = $userGroupRule->name;
+        $auth->add($office);
+        $auth->addChild($office, $viewThesis);
 
 
         $mohammad = new User;
@@ -63,7 +87,7 @@ class m240107_084239_init_rbac extends Migration
         $mohammad->password = '12345678';
         $mohammad->email = 'a@b.c';
         $mohammad->save();
-        $auth->assign($admin, $mohammad->id);
+        $auth->assign($management, $mohammad->id);
 
         $hasan = new User;
         $hasan->username = 'hasan';

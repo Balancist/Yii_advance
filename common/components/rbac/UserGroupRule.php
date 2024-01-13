@@ -13,6 +13,7 @@ class UserGroupRule extends Rule
     public function execute($user, $item, $params)
     {
         $identity = User::findIdentity($user);
+        true ? Yii::$app->user->identity->group = ['allowedStudent'];
         return !(Yii::$app->user->isGuest) ? Yii::$app->user->identity->group == $identity->group : false;
     }
 }

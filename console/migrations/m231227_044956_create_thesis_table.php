@@ -11,14 +11,23 @@ class m231227_044956_create_thesis_table extends Migration
             'title' => $this->string(1000)->notNull(),
             'slug' => $this->string(1000)->notNull(),
             'text' => $this->text()->notNull(),
-            'date' => $this->dateTime()->notNull(),
-            'author' => $this->integer()->notNull()
+            'created_time' => $this->timestamp()->notNull(),
+            'created_user_id' => $this->integer()->notNull(),
+            'modified_time' => $this->timestamp()->notNull(),
+            'modified_user_id' => $this->integer()->notNull(),
+            'deleted_time' => $this->timestamp()->notNull()
         ], 'ENGINE=InnoDB');
 
         $this->createIndex(
-            'idx-thesis-author',
+            'idx-thesis-created_user_id',
             'thesis',
-            'author'
+            'created_user_id'
+        );
+
+        $this->createIndex(
+            'idx-thesis-modified_user_id',
+            'thesis',
+            'modified_user_id'
         );
 
         $this->createIndex(
@@ -28,9 +37,17 @@ class m231227_044956_create_thesis_table extends Migration
         );
 
         $this->addForeignKey(
-            'fk-thesis-author',
+            'fk-thesis-created_user_id',
             'thesis',
-            'author',
+            'created_user_id',
+            'user',
+            'id'
+        );
+
+        $this->addForeignKey(
+            'fk-thesis-modified_user_id',
+            'thesis',
+            'modified_user_id',
             'user',
             'id'
         );
@@ -38,8 +55,10 @@ class m231227_044956_create_thesis_table extends Migration
 
     public function safeDown()
     {
-        $this->dropForeignKey('fk-thesis-author', 'thesis');
-        $this->dropIndex('idx-thesis-author', 'thesis');
+        $this->dropForeignKey('fk-thesis-created_user_id', 'thesis');
+        $this->dropForeignKey('fk-thesis-modified_user_id', 'thesis');
+        $this->dropIndex('idx-thesis-created_user_id', 'thesis');
+        $this->dropIndex('idx-thesis-modified_user_id', 'thesis');
         $this->dropIndex('idx-thesis-slug', 'thesis');
         $this->dropTable('{{%thesis}}');
     }

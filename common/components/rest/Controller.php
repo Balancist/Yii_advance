@@ -34,10 +34,10 @@ class Controller extends ActiveController
                 ];
         */
 
-        $behaviors['UserGroupBehavior'] = [
-            'class' => UserGroupBehavior::class,
-            'except' => [],
-        ];
+        // $behaviors['UserGroupBehavior'] = [
+        //     'class' => UserGroupBehavior::class,
+        //     'except' => [],
+        // ];
 
         return $behaviors;
     }
@@ -101,11 +101,19 @@ class Controller extends ActiveController
 
     protected function delete($id, $softDelete = true)
     {
-        return Yii::createObject([
-            'class' => 'yii\rest\DeleteAction',
-            'modelClass' => $this->modelClass,
-            'checkAccess' => [$this, 'checkAccess'],
-        ], ['delete', $this])->run($id);
+        if ($softDelete) {
+            return Yii::createObject([
+                'class' => 'common\components\rest\SoftDeleteAction',
+                'modelClass' => $this->modelClass,
+                'checkAccess' => [$this, 'checkAccess'],
+            ], ['delete', $this])->run($id);
+        } else {
+            return Yii::createObject([
+                'class' => 'yii\rest\DeleteAction',
+                'modelClass' => $this->modelClass,
+                'checkAccess' => [$this, 'checkAccess'],
+            ], ['delete', $this])->run($id);
+        }
     }
 
     public function option()

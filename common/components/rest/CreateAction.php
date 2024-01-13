@@ -23,8 +23,8 @@ class CreateAction extends \yii\rest\CreateAction
         ]);
 
         $model->load(Yii::$app->getRequest()->getBodyParams(), '');
-        $model->author = Yii::$app->user->id;
-        $model->date = date('Y/m/d | H:i:s');
+        $model->created_user_id = Yii::$app->user->id;
+        $model->created_time = date('Y-m-d | H:i:s');
         if ($model->save()) {
             $response = Yii::$app->getResponse();
             $response->setStatusCode(201);

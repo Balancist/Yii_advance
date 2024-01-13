@@ -5,7 +5,7 @@ namespace common\models;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
+use common\components\rest\ActiveRecord;
 use yii\web\IdentityInterface;
 
 class User extends ActiveRecord implements IdentityInterface
@@ -16,6 +16,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public $group = [
         'admin',
+        'allowedStudent'
     ];
 
 

@@ -10,6 +10,6 @@ class OwnerRule extends Rule
 
     public function execute($user, $item, $params)
     {
-        return isset($params['object']) ? $params['object']->author == $user : false;
+        return isset($params['object']) ? $params['object']->created_user_id == $user : false;
     }
 }

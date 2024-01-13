@@ -66,15 +66,10 @@ use Yii;
 * <?= $controllerClass ?> implements the CRUD actions for <?= $modelClass ?> model.
 */
 
-
 /**
 * @SWG\Tag(
 *   name="<?= $modelClassLower ?>",
-*   description="<?= $TABLE_COMMENT ?>",
-*   @SWG\ExternalDocumentation(
-*     description="Find out more about our store",
-*     url="http://swagger.io"
-*   )
+*   description="<?= $TABLE_COMMENT ?>"
 * )
 */
 class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->baseControllerClass) . "\n" ?>
@@ -92,19 +87,14 @@ public $modelClass = '<?= $class ?>';
 *     consumes = {"application/json"},
 *     @SWG\Response(
 *         response = 200,
-*         description = " success"
+*         description = "success"
 *     )
 * )
 *
 */
-public function actionIndex() {
-    $searchModel = new <?= $generator->searchModelClass ?>;
-    $dataProvider = $searchModel->search($this->request->queryParams);
-
-    return $this->render('index', [
-        'searchModel' => $searchModel,
-        'dataProvider' => $dataProvider,
-    ]);
+public function actionIndex()
+{
+    return parent::index();
 }
 
 /**
@@ -146,7 +136,7 @@ foreach ($class::getTableSchema()->columns as $field => $attr):
     *        name = "<?= $field ?>",
     *        description = "<?= $attr->comment ?> ",
     *        required = <?= ($attr->allowNull ? 'false' : 'true') ?>,
-    *        type = "<?= print_r($attr->type) ?>"
+    *        type = "<?= $attr->type ?>"
     *     ),
     <?php
 endforeach;
@@ -154,12 +144,12 @@ endforeach;
 *
 *     @SWG\Response(
 *         response = 200,
-*         description = " success"
+*         description = "success"
 *     ),
 *     @SWG\Response(
 *         response = 401,
 *         description = "Error in Create",
-*         @SWG\Schema(ref="#/definitions/Error")
+*         @SWG\Schema(ref="backend\views\site\error")
 *     )
 * )
 *
@@ -171,7 +161,7 @@ return parent::create();
 
 
 /**
-* @SWG\Put(
+* @SWG\Patch(
 *     path="/<?= $modelClassLower ?>/{id}",
 *     tags={"<?= $modelClassLower ?>"},
 *     summary="Update Info <?= $modelClassLower ?>",
@@ -192,7 +182,7 @@ foreach ($class::getTableSchema()->columns as $field => $attr):
     *        name = "<?= $field ?>",
     *        description = "<?= $attr->comment ?>",
     *        required = <?= ($attr->allowNull ? 'false' : 'true') ?>,
-    *        type = "<?= print_r($attr->type) ?>"
+    *        type = "<?= $attr->type ?>"
     *     ),
     <?php
 endforeach;
@@ -200,17 +190,15 @@ endforeach;
 *
 *     @SWG\Response(
 *         response = 200,
-*         description = " success"
+*         description = "success"
 *     ),
 *     @SWG\Response(
 *         response = 401,
 *         description = "Error",
-*         @SWG\Schema(ref="#/definitions/Error")
+*         @SWG\Schema(ref="backend\views\site\error")
 *     )
 * )
-* @param integer $id
 *
-* @return array
 */
 public function actionUpdate($id)
 {
@@ -235,7 +223,7 @@ foreach ($class::getTableSchema()->columns as $field => $attr):
         *        name = "<?= $field ?>",
         *        description = "<?= $attr->comment ?> ",
         *        required = false,
-        *        type = "<?= print_r($attr->type) ?>"
+        *        type = "<?= $attr->type ?>"
         *     ),
         <?php
     endif;
@@ -276,10 +264,5 @@ return $dataProvider ;
 public function actionDelete($id)
 {
 return parent::delete($id);
-}
-
-protected function findModel($id) {
-$class = new <?= $modelClass ?>();
-return parent::findModel($class, $id);
 }
 }

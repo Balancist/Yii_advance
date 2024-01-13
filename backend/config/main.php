@@ -67,7 +67,18 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => \yii\rest\UrlRule::class, 'controller' => ['thesis' => 'v1/thesis/thesis']]
+                ['class' => \yii\rest\UrlRule::class, 'controller' => ['theses' => 'v1/thesis/thesis']],
+                ['class' => \yii\rest\UrlRule::class, 'controller' => ['base-schools' => 'v1/base-info/base-school']],
+                ['class' => \yii\rest\UrlRule::class, 'controller' => ['base-study-fields' => 'v1/base-info/base-study-field']],
+                ['class' => \yii\rest\UrlRule::class, 'controller' => ['domains' => 'v1/base-info/domain']],
+                ['class' => \yii\rest\UrlRule::class, 'controller' => ['schools' => 'v1/base-info/school']],
+                ['class' => \yii\rest\UrlRule::class, 'controller' => ['study-fields' => 'v1/base-info/study-field']],
+                ['class' => \yii\rest\UrlRule::class, 'controller' => ['sections' => 'v1/base-info/section']],
+                ['class' => \yii\rest\UrlRule::class, 'controller' => ['locations' => 'v1/base-info/location']],
+                ['class' => \yii\rest\UrlRule::class, 'controller' => ['request-processes' => 'v1/request/request-process']],
+                ['class' => \yii\rest\UrlRule::class, 'controller' => ['request-process-types' => 'v1/request/request-process-type']],
+                ['class' => \yii\rest\UrlRule::class, 'controller' => ['student-specs' => 'v1/student/student-spec']],
+                ['class' => \yii\rest\UrlRule::class, 'controller' => ['people' => 'v1/student/person']],
             ],
         ],
         'response' => [
